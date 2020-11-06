@@ -15,12 +15,14 @@
 <!--          </div>-->
           <div class="media-content">
             <p class="title is-4">{{show["공연 이름"]}}</p>
-            <p class="subtitle is-6">@johnsmith</p>
+            <p v-if="show.tags.length > 0" class="subtitle is-6">
+              {{ "#" + show.tags.join("# ") }}
+            </p>
           </div>
         </div>
 
         <div class="content">
-          아무말2
+
         </div>
       </div>
     </div>
