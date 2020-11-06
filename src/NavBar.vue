@@ -1,5 +1,5 @@
 <template>
-  <b-navbar type="is-white" spaced="true">
+  <b-navbar type="is-white" spaced shadow>
     <template slot="brand">
       <b-navbar-item tag="router-link" to="/">
         <div>
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'Headers',
+  name: 'NavBar',
   data() {
     return {
       buildType: process.env.NODE_ENV,
