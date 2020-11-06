@@ -3,26 +3,48 @@
     <div class="card">
       <div class="card-image">
         <figure class="image">
+          <b-tag class="image-tag" type="is-warning" size="is-medium">{{show["공연 종류"]}}</b-tag>
           <img :src="show['포스터']" @error="showErrorImage" alt="Placeholder image">
         </figure>
       </div>
       <div class="card-content">
         <div class="media">
-<!--          <div class="media-left">-->
-<!--            <figure class="image is-48x48">-->
-<!--              <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">-->
-<!--            </figure>-->
-<!--          </div>-->
+          <div class="media-left">
+            <b-tag :type="(isOnline ? 'is-info' : 'is-black') + ' is-light'"
+                   size="is-small">
+              {{ isOnline ? "온라인" : "오프라인" }}
+            </b-tag><br/>
+            <b-tag :type="(isDomestic ? 'is-success' : 'is-danger') + ' is-light'"
+                   size="is-small">
+              {{ show["국내/외"] }}
+            </b-tag>
+          </div>
           <div class="media-content">
-            <p class="title is-4">{{show["공연 이름"]}}</p>
-            <p v-if="show.tags.length > 0" class="subtitle is-6">
-              {{ "#" + show.tags.join("# ") }}
-            </p>
+<!--            <div class="tags">-->
+<!--              <b-tag-->
+<!--                :type="(isOnline ? 'is-info' : 'is-black') + ' is-light'"-->
+<!--                size="is-small"-->
+<!--              >-->
+<!--                {{ isOnline ? "온라인" : "오프라인" }}-->
+<!--              </b-tag>-->
+<!--              <b-tag-->
+<!--                :type="(isDomestic ? 'is-success' : 'is-danger') + ' is-light'"-->
+<!--                size="is-small"-->
+<!--              >-->
+<!--                {{ show["국내/외"] }}-->
+<!--              </b-tag>-->
+<!--            </div>-->
+            <p class="title is-5">{{ show["공연 이름"] }}</p>
+<!--            <p v-if="show.tags.length > 0" class="subtitle is-6">-->
+<!--              {{ "#" + show.tags.join("# ") }}-->
+<!--            </p>-->
           </div>
         </div>
 
         <div class="content">
-
+          <div v-if="show.tags.length > 0">
+            {{ "#" + show.tags.join(" #") }}
+          </div>
         </div>
       </div>
     </div>
@@ -35,6 +57,12 @@ export default {
   props: {
     show: Object,
   },
+  data() {
+    return {
+      isOnline: this.show["온/오프"] === "on",
+      isDomestic: this.show["국내/외"] === "국내",
+    };
+  },
   methods: {
     showErrorImage(event) {
       event.target.src='https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fa2e307ac-9743-45c9-aea5-20ef7344c51a%2F-.jpg?table=block&id=1642c5bb-3350-4116-8b6d-5879fa75eb3c&width=250&userId=da18117b-c7bf-404f-898c-09e7ae5a6ccc&cache=v2'
@@ -45,5 +73,14 @@ export default {
 </script>
 
 <style scoped>
+.image-tag {
+  position: absolute;
+  left: 0.5rem;
+  top: 0.5rem;
+  background: #4a4a4a;
+  color: white;
+}
 
+.tags {
+}
 </style>

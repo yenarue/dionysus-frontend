@@ -6,8 +6,10 @@
     <div v-if="showData.length > 0" class="container show-list">
       <div class="columns is-multiline is-centered is-mobile">
         <div v-for="show in showData" v-bind:key="show.id">
-          <div class="column">
-            <show-card-item style="width:300px" :show="show"></show-card-item>
+          <div class="column" :class="classes">
+            <show-card-item
+                style="width:300px"
+                :show="show"></show-card-item>
           </div>
         </div>
       </div>
@@ -28,7 +30,8 @@ export default {
   data() {
     return {
       headers: [],
-      showData: []
+      showData: [],
+      classes: [],
     };
   },
   created() {
@@ -39,6 +42,17 @@ export default {
         this.showData = res.data.data;
       })
       .catch(err => console.log(err));
+  },
+  methods: {
+    // @mouseover="hoverOver" @mouseout="hoverOut"
+    // hoverOver: function() {
+    //   console.log('over');
+    //   this.classes = ['animated', 'tada']
+    // },
+    // hoverOut: function() {
+    //   console.log('out');
+    //   this.classes = []
+    // },
   }
 };
 </script>
