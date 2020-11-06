@@ -1,9 +1,9 @@
 import Vue from "vue";
+import Buefy from "buefy";
+import VueCookies from "vue-cookies";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import Buefy from "buefy";
-import VueCookies from 'vue-cookies';
 import "buefy/dist/buefy.css";
 
 Vue.use(Buefy);
@@ -19,7 +19,6 @@ const app = new Vue({
     };
   },
   store,
-  render: h => h(App),
   methods: {
     setCookie(token) {
       const expires = "1d";
@@ -60,24 +59,25 @@ const app = new Vue({
     },
     showToast(type, message) {
       this.$buefy.toast.open({
-        message: message,
-        type: type
+        message,
+        type
       });
     },
     showSuccessToast(message) {
       this.$buefy.toast.open({
-        message: message,
+        message,
         type: "is-info"
       });
     },
     showErrorToast(message, error) {
       this.$buefy.toast.open({
-        message: message,
+        message,
         type: "is-danger"
       });
       console.log(error.response);
     }
-  }
+  },
+  render: h => h(App)
 }).$mount("#app");
 
 export default app;

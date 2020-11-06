@@ -24,14 +24,14 @@ function create(axiosInstance) {
   const responseInterceptor = axiosInstance.interceptors.response.use(
     function(response) {
       if (response.request.responseURL.indexOf("/api/auth/sign-up") > -1) {
-        console.log('');
+        console.log("");
       } else if (
         response.request.responseURL.indexOf("/api/auth/logout") > -1
       ) {
         app.removeCookie("access_token");
-        delete axiosInstance.defaults.headers.common["Authorization"];
+        delete axiosInstance.defaults.headers.common.Authorization;
       } else {
-        axiosInstance.defaults.headers.common["Authorization"] =
+        axiosInstance.defaults.headers.common.Authorization =
           response.headers.authorization;
         app.setCookie(response.headers.authorization);
         app.isLoggedIn = true;
@@ -44,7 +44,7 @@ function create(axiosInstance) {
       app.isLoading = false;
       if (error.response.status === 403) {
         app.removeCookie("access_token");
-        delete axiosInstance.defaults.headers.common["Authorization"];
+        delete axiosInstance.defaults.headers.common.Authorization;
       }
       return Promise.reject(error);
     }

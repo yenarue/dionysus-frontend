@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import NavBar from "./NavBar.vue";
 import GoTop from "@inotom/vue-go-top";
 import Loading from "vue-loading-overlay";
+import NavBar from "./NavBar.vue";
 import "vue-loading-overlay/dist/vue-loading.css";
 
 const packageJson = require("../package.json");
@@ -117,6 +117,4 @@ $link-focus-border: $primary;
   text-align: center;
   color: #2c3e50;
 }
-
-
 </style>
