@@ -22,8 +22,22 @@
           <div class="title">
             <strong class="has-text-danger">{{ heartedShows.length }}개</strong
             >의 꿀잼 공연을 담은 당신<br />
-            <strong class="has-text-danger" style="font-size: 20px">
+            <strong
+              v-if="heartedShows.length > 10"
+              class="has-text-danger"
+              style="font-size: 20px"
+            >
               찐이야...찐...🙊
+            </strong>
+            <strong
+              v-else-if="heartedShows.length <= 0"
+              class="has-text-danger"
+              style="font-size: 20px"
+            >
+              공연에 아직 흥미가 없으시군요 👀
+            </strong>
+            <strong v-else class="has-text-danger" style="font-size: 20px">
+              공연에 관심이 많은 이 시대의 참지성인! 💃
             </strong>
           </div>
 
@@ -144,10 +158,7 @@
         <button class="button is-light" type="button" @click="$emit('close')">
           😅 나중에 할래
         </button>
-        <button
-          class="button is-warning is-light"
-          @click="$emit('open-login-form')"
-        >
+        <button class="button is-warning" @click="$emit('open-login-form')">
           👍 이미 가족이야
         </button>
         <button class="button is-black">
