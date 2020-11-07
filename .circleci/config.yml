@@ -71,6 +71,9 @@ jobs:
       - run: *install-npm
       - save_cache: *save-npm-cache
       - run:
+          name: check dist directory
+          command: pwd; ls; ls dist
+      - run:
           name: Dev Firebase Deploy
           command:  ./node_modules/.bin/firebase deploy --project dev --only hosting:dionysus-alarm-dev --token "$DEV_FIREBASE_TOKEN"
 #      - run:
