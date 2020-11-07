@@ -40,7 +40,7 @@ jobs:
           name: npm 테스트
           command: npm test
 
-  dev-build:
+  dev-build-deploy:
     <<: *defaults
     steps:
       - checkout
@@ -54,12 +54,15 @@ jobs:
       - run:
           name: Build in Development Mode
           command: npm run build-dev
-      - persist_to_workspace:
-          root: .
-          paths: dist
+#      - persist_to_workspace:
+#          root: .
+#          paths: dist
       - run:
           name: check dist directory
           command: pwd; ls; ls dist
+      - run:
+          name: Dev Firebase Deploy
+          command:  ./node_modules/.bin/firebase deploy --project dev --only hosting:dionysus-alarm-dev --token "$DEV_FIREBASE_TOKEN"
 
   dev-deploy:
     <<: *defaults
@@ -80,7 +83,7 @@ jobs:
 #          name: Archive and Delivery to Slack
 #          command: bash .circleci/delivery-to-slack.sh DEV dev-build $CIRCLE_BRANCH
 
-  prd-build:
+  prd-build-deploy:
     <<: *defaults
     steps:
       - checkout
@@ -94,12 +97,18 @@ jobs:
       - run:
           name: Build in Production Mode
           command: npm run build
-      - persist_to_workspace:
-          root: .
-          paths: dist
+#      - persist_to_workspace:
+#          root: .
+#          paths: dist
       - run:
           name: check dist directory
           command: pwd; ls; ls dist
+      - run:
+          name: firebase.json prd용으로 대체
+          command: mv firebase-prd.json firebase.json
+      - run:
+          name: Prd Firebase Deploy
+          command:  ./node_modules/.bin/firebase deploy --project prd --only hosting:dionysus-alarm --token "$FIREBASE_TOKEN"
 
   prd-deploy:
     <<: *defaults
@@ -124,27 +133,27 @@ workflows:
   version: 2
   build-deploy:
     jobs:
-      - dev-build:
+      - dev-build-deploy:
           filters:
             branches:
               ignore:
                 - release
-      - dev-deploy:
-          requires:
-            - dev-build
-          filters:
-            branches:
-              ignore:
-                - release
-      - prd-build:
-          filters:
-            branches:
-              only:
-                - release
-      - prd-deploy:
-          requires:
-            - prd-build
+#      - dev-deploy:
+#          requires:
+#            - dev-build
+#          filters:
+#            branches:
+#              ignore:
+#                - release
+      - prd-build-deploy:
           filters:
             branches:
               only:
                 - release
+#      - prd-deploy:
+#          requires:
+#            - prd-build
+#          filters:
+#            branches:
+#              only:
+#                - release
