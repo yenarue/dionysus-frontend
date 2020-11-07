@@ -96,11 +96,8 @@ export default {
     },
     onToggleFavorite(value) {
       this.isHeart = value;
-      if (value) {
-        this.heartCount++;
-      } else {
-        this.heartCount--;
-      }
+      this.$emit("heart-toggle", value);
+      value ? this.heartCount++ : this.heartCount--;
     },
     showErrorImage(event) {
       event.target.src = config.defaultImageUrl;

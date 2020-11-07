@@ -1,5 +1,5 @@
 <template>
-  <b-navbar type="is-white" spaced shadow>
+  <b-navbar type="is-white" spaced shadow fixed-top>
     <template slot="brand">
       <b-navbar-item tag="router-link" to="/">
         <div>

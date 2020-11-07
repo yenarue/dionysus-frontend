@@ -2,12 +2,14 @@
   <div class="show-list">
     <div v-if="!$root.isLoading" class="container">
       <!--    검색된 공연수 : {{ showData.length }} 개-->
-      <div class="title">
-        꿀잼각이거나 꿀잼이었던 공연
-        <toggle-favorite ref="heartButton" />
-        표시하기
+      <div class="head">
+        <div class="title">
+          꿀잼각이거나 꿀잼이었던 공연
+          <toggle-favorite ref="heartButton" />
+          표시하기
+        </div>
+        저희가 잘 <b>기억</b>해뒀다가 <b>알려</b>드릴게요 😉
       </div>
-      저희가 잘 <b>기억</b>해뒀다가 <b>알려</b>드릴게요 😉
       <br />
       <br />
       <transition name="fade">
@@ -18,12 +20,21 @@
                 <show-card-item
                   style="width:300px"
                   :show="show"
+                  @heart-toggle="onToggleHeart"
                 ></show-card-item>
               </div>
             </div>
           </div>
         </div>
       </transition>
+      <b-button
+        class="heart-summary"
+        type="is-danger"
+        icon-left="delete"
+        rounded
+      >
+        {{ heartCount }} 가지 꿀잼 공연이 담겨있어요
+      </b-button>
     </div>
     <div v-else>
       <div class="title" style="display: inline-flex">
@@ -52,25 +63,39 @@ export default {
     return {
       headers: [],
       showData: [],
-      classes: []
+      classes: [],
+      heartCount: 0
     };
   },
   created() {
-    request
-      .get("/shows")
-      .then(res => {
-        this.headers = res.data.headers;
-        this.showData = res.data.data;
-
-        console.log("검색된 공연수 : " + this.showData.length + "개");
-
-        setTimeout(() => {
-          this.$refs.heartButton.toggle();
-        }, 500);
-      })
-      .catch(err => console.log(err));
+    if (process.env.NODE_ENV === "development") {
+      this.$root.isLoading = true;
+      const data = require("../../tests/data/shows.json");
+      this.setShowData(data.headers, data.data);
+      this.$root.isLoading = false;
+    } else {
+      request
+        .get("/shows")
+        .then(res => {
+          this.setShowData(res.data.headers, res.data.data);
+        })
+        .catch(err => console.log(err));
+    }
   },
   methods: {
+    setShowData(headers, showData) {
+      this.headers = headers;
+      this.showData = showData;
+
+      console.log("검색된 공연수 : " + this.showData.length + "개");
+
+      setTimeout(() => {
+        this.$refs.heartButton.toggle();
+      }, 500);
+    },
+    onToggleHeart(isOn) {
+      isOn ? this.heartCount++ : this.heartCount--;
+    }
     // @mouseover="hoverOver" @mouseout="hoverOut"
     // hoverOver: function() {
     //   console.log('over');
@@ -88,6 +113,17 @@ export default {
 .show-list {
   padding: 1rem;
   height: 100%;
+}
+
+.heart-summary {
+  position: fixed;
+  top: 1.5rem;
+  right: 10px;
+  z-index: 99;
+}
+
+.head {
+  padding: 2rem 0 0 2rem;
 }
 
 .fade-enter-active,
