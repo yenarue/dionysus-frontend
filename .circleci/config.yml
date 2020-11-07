@@ -1,0 +1,147 @@
+aliases:
+  - &attach_workspace
+    at: ~/frontend
+
+  - &update-npm
+    name: npm 업데이트
+    command: sudo npm install -g npm@latest
+
+  - &restore-npm-cache
+    keys:
+      - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+      - v1-dependencies-{{ .Branch }}-
+
+  - &install-npm
+    name: npm 설치
+    command: npm install
+
+  - &save-npm-cache
+    key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+    paths:
+      - node_modules
+
+defaults: &defaults
+  working_directory: ~/dragon-landing
+  docker:
+    - image: circleci/node:13.7
+
+version: 2
+jobs:
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace: *attach_workspace
+      - run: *update-npm
+      - restore_cache: *restore-npm-cache
+      - run: *install-npm
+      - save_cache: *save-npm-cache
+      - run:
+          name: npm 테스트
+          command: npm test
+
+  dev-build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: *update-npm
+      - restore_cache: *restore-npm-cache
+      - run: *install-npm
+      - run:
+          name: sass rebuild
+          command: npm rebuild node-sass
+      - save_cache: *save-npm-cache
+      - run:
+          name: Build in Development Mode
+          command: npm run build-dev
+      - persist_to_workspace:
+          root: .
+          paths: dist
+      - run:
+          name: check dist directory
+          command: pwd; ls; ls dist
+
+  dev-deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace: *attach_workspace
+      - run: *update-npm
+      - restore_cache: *restore-npm-cache
+      - run: *install-npm
+      - save_cache: *save-npm-cache
+      - run:
+          name: Dev Firebase Deploy
+          command:  ./node_modules/.bin/firebase deploy --project dev --only hosting:dionysus-dev --token "$DEV_FIREBASE_TOKEN"
+#      - run:
+#          name: Archive and Delivery to Slack
+#          command: bash .circleci/delivery-to-slack.sh DEV dev-build $CIRCLE_BRANCH
+
+  prd-build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: *update-npm
+      - restore_cache: *restore-npm-cache
+      - run: *install-npm
+      - run:
+          name: sass rebuild
+          command: npm rebuild node-sass
+      - save_cache: *save-npm-cache
+      - run:
+          name: Build in Production Mode
+          command: npm run build
+      - persist_to_workspace:
+          root: .
+          paths: dist
+      - run:
+          name: check dist directory
+          command: pwd; ls; ls dist
+
+  prd-deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace: *attach_workspace
+      - run: *update-npm
+      - restore_cache: *restore-npm-cache
+      - run: *install-npm
+      - save_cache: *save-npm-cache
+      - run:
+          name: firebase.json prd용으로 대체
+          command: mv firebase-prd.json firebase.json
+      - run:
+          name: Prd Firebase Deploy
+          command:  ./node_modules/.bin/firebase deploy --project prd --only hosting:dionysus --token "$FIREBASE_TOKEN"
+#      - run:
+#          name: Archive and Delivery to Slack
+#          command: bash .circleci/delivery-to-slack.sh PRD _general $CIRCLE_BRANCH
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - dev-build:
+          filters:
+            branches:
+              ignore:
+                - release
+      - dev-deploy:
+          requires:
+            - dev-build
+          filters:
+            branches:
+              ignore:
+                - release
+      - prd-build:
+          filters:
+            branches:
+              only:
+                - release
+      - prd-deploy:
+          requires:
+            - prd-build
+          filters:
+            branches:
+              only:
+                - release
