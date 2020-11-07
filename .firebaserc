@@ -1,0 +1,6 @@
+{
+  "projects": {
+    "dev": "dionysus-dev-217df",
+    "prd": "dionysus-ddf26"
+  }
+}
