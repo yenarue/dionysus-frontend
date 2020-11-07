@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve --port=3000",
     "build": "vue-cli-service build",
+    "build-dev": "vue-cli-service build --mode development",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
@@ -13,6 +14,8 @@
     "axios": "^0.21.0",
     "buefy": "^0.9.4",
     "core-js": "^3.6.5",
+    "firebase": "^7.22.1",
+    "firebase-tools": "^8.12.0",
     "vue": "^2.6.11",
     "vue-cookies": "^1.7.4",
     "vue-loading-overlay": "^3.3.2",
