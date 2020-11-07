@@ -47,7 +47,7 @@
                 @toggle="onToggleFavorite"
               />
               <div class="count">
-                {{ this.heartCount }}
+                {{ this.heartCount + (this.isHeart ? 1 : 0) }}
               </div>
             </div>
           </div>
@@ -87,7 +87,7 @@ export default {
       isOnline: this.show["온/오프"] === "on",
       isDomestic: this.show["국내/외"] === "국내",
       isFree: this.show["무/유료"] === "무료",
-      isHeart: false,
+      isHeart: this.show.isHeart,
       heartCount: 130
     };
   },
@@ -122,7 +122,6 @@ export default {
         .then(res => {
           console.log(res);
           this.isHeart = isOn;
-          isOn ? this.heartCount++ : this.heartCount--;
 
           // send event to parent
           this.$emit("heart-toggle", {

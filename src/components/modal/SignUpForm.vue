@@ -19,8 +19,34 @@
           class="has-text-centered"
           style="padding: 1rem 0 2rem 0; font-size: 20px"
         >
-          <strong>20개</strong>의 꿀잼 공연을 담은 당신은
-          <strong>찐이야...찐...</strong><br />
+          <div class="title">
+            <strong class="has-text-danger">{{ heartedShows.length }}개</strong
+            >의 꿀잼 공연을 담은 당신<br />
+            <strong class="has-text-danger" style="font-size: 20px">
+              찐이야...찐...🙊
+            </strong>
+          </div>
+
+          <b-carousel-list
+            :model="0"
+            :data="heartedShows"
+            arrow
+            :items-to-show="4"
+            :items-to-list="1"
+            repeat
+            has-drag
+            style="padding: 1rem"
+          >
+            <template slot="item" slot-scope="show">
+              <show-card-item
+                style="width:300px;"
+                :show="show"
+                :is-show-heart-message="false"
+                @heart-toggle="true"
+              ></show-card-item>
+            </template>
+          </b-carousel-list>
+
           <!--          고오급 안목을 지닌 당신... 우리와 함께 해보지 않으실래요? 😉-->
           저희와 함께하시고 <strong>취향저격 꿀잼 공연들</strong>을 만나보세요!
         </div>
@@ -133,9 +159,16 @@
 </template>
 
 <script>
+import ShowCardItem from "@/components/ShowCardItem";
+
 export default {
   name: "SignUpForm",
-  props: [],
+  components: {
+    ShowCardItem
+  },
+  props: {
+    heartedShows: Array
+  },
   data() {
     return {
       email: "",
@@ -145,6 +178,11 @@ export default {
       gender: "",
       regions: []
     };
+  },
+  methods: {
+    printLog() {
+      console.log("test");
+    }
   }
 };
 </script>

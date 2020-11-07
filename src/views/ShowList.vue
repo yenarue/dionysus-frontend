@@ -31,7 +31,7 @@
       <div class="summary-container">
         <b-button
           class="heart-summary"
-          type="is-danger"
+          :type="heartShowIds.length > 0 ? 'is-danger' : 'is-danger is-light'"
           icon-left="mdiHeart"
           rounded
           @click="onClickHeartButton"
@@ -118,8 +118,15 @@ export default {
       this.$buefy.modal.open({
         parent: this,
         component: SignUpForm,
+        props: {
+          heartedShows: this.showData
+            .filter(show => this.heartShowIds.includes(show.id))
+            .map(show => {
+              show.isHeart = true;
+              return show;
+            })
+        },
         hasModalCard: true,
-        customClass: "custom-class custom-class-2",
         trapFocus: true
       });
     },
