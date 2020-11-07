@@ -3,13 +3,11 @@
     <template slot="brand">
       <b-navbar-item tag="router-link" to="/">
         <div>
-          <!--          <img-->
-          <!--              src="https://raw.githubusercontent.com/buefy/buefy/dev/static/img/buefy-logo.png"-->
-          <!--              alt="온라인 공연 알리미"-->
-          <!--          >-->
-          <img src="./assets/logo.jpg" alt="온라인 공연 알리미" />
-          <!--          <div class="build-type">{{buildType}}</div>-->
+          <!--          <img src="./assets/logo.jpg" alt="온라인 공연 알리미" />-->
+          <div class="subtitle">온라인 공연 알리미</div>
+          <!--                    <div class="build-type">{{buildType}}</div>-->
         </div>
+        <div class="build-type">alpha</div>
       </b-navbar-item>
     </template>
     <template slot="start">
@@ -49,8 +47,8 @@ nav {
 .build-type {
   font-size: 10px;
   text-align: center;
-  margin-top: -10px;
-  color: white;
+  margin-top: -20px;
+  color: dimgray;
   font-weight: bold;
 }
 </style>

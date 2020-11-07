@@ -7,7 +7,8 @@
             {{ show["공연 종류"] }}
           </b-tag>
           <img
-            :src="show['포스터']"
+            class="poster"
+            :src="show['포스터'] || config.defaultImageUrl"
             alt="Placeholder image"
             @error="showErrorImage"
           />
@@ -22,33 +23,38 @@
             {{ isOnline ? "온라인" : "오프라인" }}
           </b-tag>
           <b-tag
-            :type="(isDomestic ? 'is-success' : 'is-danger') + ' is-light'"
+            :type="(isDomestic ? 'is-primary' : 'is-danger') + ' is-light'"
             size="is-small"
           >
             {{ show["국내/외"] }}
+          </b-tag>
+          <b-tag
+            :type="(isFree ? 'is-success' : 'is-warning') + ' is-light'"
+            size="is-small"
+          >
+            {{ show["무/유료"] }}
+          </b-tag>
+          <b-tag type="is-black is-light" size="is-small">
+            {{ show["관람등급"] }}
           </b-tag>
         </div>
 
         <div class="media">
           <div class="media-left">
-            <toggle-favorite :favorited="isHeart" @toggle="onToggleFavorite" />
-            <!--            <favorite-button name="test" :value="isHeart" @click="onClickFavoriteButton"></favorite-button>-->
-            <!--            <b-tag :type="(isOnline ? 'is-info' : 'is-black') + ' is-light'"-->
-            <!--                   size="is-small">-->
-            <!--              {{ isOnline ? "온라인" : "오프라인" }}-->
-            <!--            </b-tag><br/>-->
-            <!--            <b-tag :type="(isDomestic ? 'is-success' : 'is-danger') + ' is-light'"-->
-            <!--                   size="is-small">-->
-            <!--              {{ show["국내/외"] }}-->
-            <!--            </b-tag>-->
+            <div class="heart">
+              <toggle-favorite
+                :favorited="isHeart"
+                @toggle="onToggleFavorite"
+              />
+              <div class="count">
+                {{ this.heartCount }}
+              </div>
+            </div>
           </div>
           <div class="media-content">
             <p class="title is-5">
               {{ show["공연 이름"] }}
             </p>
-            <!--            <p v-if="show.tags.length > 0" class="subtitle is-6">-->
-            <!--              {{ "#" + show.tags.join("# ") }}-->
-            <!--            </p>-->
           </div>
         </div>
 
@@ -64,6 +70,7 @@
 
 <script>
 import ToggleFavorite from "@/components/widgets/ToggleFavorite";
+import config from "../../config";
 
 export default {
   name: "ShowCardItem",
@@ -77,7 +84,9 @@ export default {
     return {
       isOnline: this.show["온/오프"] === "on",
       isDomestic: this.show["국내/외"] === "국내",
-      isHeart: true
+      isFree: this.show["무/유료"] === "무료",
+      isHeart: false,
+      heartCount: 130
     };
   },
   methods: {
@@ -87,10 +96,14 @@ export default {
     },
     onToggleFavorite(value) {
       this.isHeart = value;
+      if (value) {
+        this.heartCount++;
+      } else {
+        this.heartCount--;
+      }
     },
     showErrorImage(event) {
-      event.target.src =
-        "https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2Fa2e307ac-9743-45c9-aea5-20ef7344c51a%2F-.jpg?table=block&id=1642c5bb-3350-4116-8b6d-5879fa75eb3c&width=250&userId=da18117b-c7bf-404f-898c-09e7ae5a6ccc&cache=v2";
+      event.target.src = config.defaultImageUrl;
       // event.target.src = "../assets/logo.jpg";
     }
   }
@@ -98,6 +111,11 @@ export default {
 </script>
 
 <style scoped>
+.poster {
+  height: 300px;
+  object-fit: cover;
+}
+
 .image-tag {
   position: absolute;
   left: 0.5rem;
@@ -108,12 +126,15 @@ export default {
 
 .tags {
 }
-
-button {
-  background: none;
-  border: none;
-  padding: 0;
-  outline: inherit;
-  cursor: pointer;
+.heart {
+  alignment: center;
+  display: inline-block;
+}
+.heart .count {
+  font-size: 10px;
+  margin-top: -5px;
+  text-align: center;
+  alignment: center;
+  margin-left: 1px;
 }
 </style>

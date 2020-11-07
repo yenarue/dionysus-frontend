@@ -9,16 +9,19 @@
       :has-outline="false"
     ></go-top>
     <div class="vld-parent">
-      <loading
-        :active.sync="$root.isLoading"
-        :can-cancel="false"
-        :is-full-page="true"
-        color="#00BFBA"
-        :height="64"
-        :width="64"
-        :z-index="9999"
-        loader="dots"
-      ></loading>
+      <div>
+        <loading
+          :active.sync="$root.isLoading"
+          :can-cancel="false"
+          :is-full-page="true"
+          color="#00BFBA"
+          :height="64"
+          :width="64"
+          :z-index="9999"
+          loader="dots"
+        >
+        </loading>
+      </div>
     </div>
   </div>
 </template>

@@ -140,4 +140,12 @@ $icon-border-color: hsl(0, 0%, 10%);
     height: 3em;
   }
 }
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  outline: inherit;
+  cursor: pointer;
+}
 </style>
