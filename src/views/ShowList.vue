@@ -108,6 +108,11 @@ export default {
         this.$refs.heartButton.toggle();
       }, 500);
     },
+    moveToMyPage() {
+      this.$buefy.toast.open({
+        message: "👷‍♀️ 마이페이지 오픈 준비중  👷‍♂️"
+      });
+    },
     showLoginModal() {
       this.$buefy.modal.open({
         parent: this,
@@ -134,6 +139,7 @@ export default {
     },
     onClickHeartButton() {
       if (this.$store.getters.isLogin) {
+        this.moveToMyPage();
       } else {
         this.showLoginModal();
       }
