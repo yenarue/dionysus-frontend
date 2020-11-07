@@ -18,7 +18,7 @@ export default new Vuex.Store({
     tempLogin(state) {
       const currentTime = new Date().getTime();
       state.loginState = "temporary";
-      state.userId = "user" + currentTime;
+      state.userId = "tempUser" + currentTime;
       state.nickName = "사용자" + currentTime;
     },
     logout(state) {

@@ -96,46 +96,54 @@ export default {
       console.log("clicked");
       this.isHeart = !this.isHeart;
     },
-    onToggleFavorite(value) {
+    onToggleFavorite(isOn) {
       const showId = this.show["고유b"];
-      this.isHeart = value;
-
-      this.$emit("heart-toggle", {
-        toggle: value,
-        showId
-      });
-
-      value ? this.heartCount++ : this.heartCount--;
+      const userId = this.$store.getters.userId;
 
       // heart api
       const heart = {
         showId,
         authType: this.$store.getters.isLogin ? "login" : "temp",
-        userId: this.$store.getters.userId
+        userId
       };
 
-      if (value) {
-        request
-          .put("/shows/heart/" + showId, heart, { isNotNeedFullLoading: true })
-          .then(res => {
-            console.log(res);
-          })
-          .catch(err => {
-            console.error(err);
-          });
-      } else {
-      }
+      const axiosConfig = {
+        isNotNeedFullLoading: true,
+        headers: {
+          "x-id-token": userId
+        }
+      };
 
-      // message snackbar
-      if (this.isShowHeartMessage && value) {
-        this.$buefy.snackbar.open({
-          duration: 2000,
-          message: "완전 꿀잼각! +❤️ " + this.show["공연 이름"],
-          type: "is-danger",
-          position: "is-bottom-right",
-          queue: false
+      const reqPromise = isOn
+        ? request.put("/shows/heart/" + showId, heart, axiosConfig)
+        : request.delete("/shows/heart/" + showId, axiosConfig);
+
+      reqPromise
+        .then(res => {
+          console.log(res);
+          this.isHeart = isOn;
+          isOn ? this.heartCount++ : this.heartCount--;
+
+          // send event to parent
+          this.$emit("heart-toggle", {
+            toggle: isOn,
+            showId
+          });
+
+          // show message snackbar
+          if (this.isShowHeartMessage && isOn) {
+            this.$buefy.snackbar.open({
+              duration: 2000,
+              message: "완전 꿀잼각! +❤️ " + this.show["공연 이름"],
+              type: "is-danger",
+              position: "is-bottom-right",
+              queue: false
+            });
+          }
+        })
+        .catch(err => {
+          console.error(err);
         });
-      }
     },
     showErrorImage(event) {
       event.target.src = config.defaultImageUrl;
