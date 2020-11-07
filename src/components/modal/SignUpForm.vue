@@ -213,7 +213,25 @@ export default {
     };
   },
   methods: {
+    validation() {
+      return (
+        this.email.length <= 0 ||
+        this.password.length <= 0 ||
+        this.nickName.length <= 0 ||
+        this.birthday.length <= 0 ||
+        this.gender.length <= 0 ||
+        this.regions.length <= 0
+      );
+    },
     requestSignUp() {
+      if (this.validation()) {
+        this.$buefy.toast.open({
+          message: "정보를 모두 입력해주세요 🙏",
+          type: "is-danger"
+        });
+        return;
+      }
+
       request
         .put(
           "/signup",
@@ -234,6 +252,8 @@ export default {
             message: this.$store.getters.userId + " 가입 완료!",
             type: "is-success"
           });
+
+          this.$emit("close");
         })
         .catch(err => {
           console.log(err.response.status);
