@@ -4,10 +4,14 @@
       <b-navbar-item tag="router-link" to="/">
         <div>
           <!--          <img src="./assets/logo.jpg" alt="온라인 공연 알리미" />-->
-          <div class="subtitle">온라인 공연 알리미</div>
+          <div class="subtitle">
+            온라인 공연 알리미
+          </div>
           <!--                    <div class="build-type">{{buildType}}</div>-->
         </div>
-        <div class="build-type">alpha</div>
+        <div class="build-type">
+          alpha
+        </div>
       </b-navbar-item>
     </template>
     <template slot="start">

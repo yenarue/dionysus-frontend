@@ -1,3 +1,4 @@
+<!--https://dev.to/cristiancalara/recreating-the-twitter-heart-animation-with-vue-59ei-->
 <template>
   <button class="toggle-favorite" @click="toggle">
     <FavoriteIcon

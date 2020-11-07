@@ -27,14 +27,25 @@
           </div>
         </div>
       </transition>
-      <b-button
-        class="heart-summary"
-        type="is-danger"
-        icon-left="delete"
-        rounded
-      >
-        {{ heartCount }} 가지 꿀잼 공연이 담겨있어요
-      </b-button>
+      <div class="summary-container">
+        <b-button
+          class="heart-summary"
+          type="is-danger"
+          icon-left="mdiHeart"
+          rounded
+        >
+          <div style="display: inline-flex">
+            <div v-if="heartCount > 0">
+              {{ this.$store.getters.nickName }} 님의
+              <strong>{{ heartCount }} 가지 꿀잼 공연</strong>이 담겨있어요
+            </div>
+            <div v-else>
+              {{ this.$store.getters.nickName }} 님의
+              <strong>꿀잼 공연</strong>을 담아보세요
+            </div>
+          </div>
+        </b-button>
+      </div>
     </div>
     <div v-else>
       <div class="title" style="display: inline-flex">
@@ -123,7 +134,7 @@ export default {
 }
 
 .head {
-  padding: 2rem 0 0 2rem;
+  padding: 3rem 0 0 2rem;
 }
 
 .fade-enter-active,
