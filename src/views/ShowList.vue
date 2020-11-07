@@ -34,6 +34,7 @@
           type="is-danger"
           icon-left="mdiHeart"
           rounded
+          @click="onClickHeartButton"
         >
           <div style="display: inline-flex">
             <div v-if="heartShowIds.length > 0">
@@ -64,6 +65,7 @@
 <script>
 import ShowCardItem from "@/components/ShowCardItem";
 import ToggleFavorite from "@/components/widgets/ToggleFavorite";
+import SignUpForm from "@/components/modal/SignUpForm";
 import request from "../common/utils/http";
 
 export default {
@@ -106,6 +108,15 @@ export default {
         this.$refs.heartButton.toggle();
       }, 500);
     },
+    showLoginModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: SignUpForm,
+        hasModalCard: true,
+        customClass: "custom-class custom-class-2",
+        trapFocus: true
+      });
+    },
     onToggleHeart(result) {
       const isOn = result.toggle;
       const showId = result.showId;
@@ -120,6 +131,12 @@ export default {
       }
 
       console.log(this.heartShowIds);
+    },
+    onClickHeartButton() {
+      if (this.$store.getters.isLogin) {
+      } else {
+        this.showLoginModal();
+      }
     }
     // @mouseover="hoverOver" @mouseout="hoverOut"
     // hoverOver: function() {
@@ -144,7 +161,7 @@ export default {
   position: fixed;
   top: 1.5rem;
   right: 10px;
-  z-index: 99;
+  z-index: 35;
 }
 
 .head {

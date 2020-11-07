@@ -12,7 +12,7 @@ export default new Vuex.Store({
   getters: {
     userId: state => state.userId,
     nickName: state => state.nickName,
-    loginState: state => state.loginState
+    isLogin: state => state.loginState === "success"
   },
   mutations: {
     tempLogin(state) {
