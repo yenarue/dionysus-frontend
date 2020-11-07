@@ -97,13 +97,18 @@ export default {
     },
     onToggleFavorite(value) {
       this.isHeart = value;
-      this.$emit("heart-toggle", value);
+
+      this.$emit("heart-toggle", {
+        toggle: value,
+        showId: this.show["고유b"]
+      });
+
       value ? this.heartCount++ : this.heartCount--;
 
-      if (value && this.isShowHeartMessage) {
+      if (this.isShowHeartMessage && value) {
         this.$buefy.snackbar.open({
           duration: 2000,
-          message: "꿀잼각! +❤️ " + this.show["공연 이름"],
+          message: "완전 꿀잼각! +❤️ " + this.show["공연 이름"],
           type: "is-danger",
           position: "is-bottom-right",
           queue: false

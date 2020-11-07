@@ -36,9 +36,10 @@
           rounded
         >
           <div style="display: inline-flex">
-            <div v-if="heartCount > 0">
+            <div v-if="heartShowIds.length > 0">
               {{ this.$store.getters.nickName }} 님의
-              <strong>{{ heartCount }} 가지 꿀잼 공연</strong>이 담겨있어요
+              <strong>{{ this.heartShowIds.length }} 가지 꿀잼 공연</strong>이
+              담겨있어요
             </div>
             <div v-else>
               {{ this.$store.getters.nickName }} 님의
@@ -76,7 +77,7 @@ export default {
       headers: [],
       showData: [],
       classes: [],
-      heartCount: 0
+      heartShowIds: []
     };
   },
   created() {
@@ -105,8 +106,20 @@ export default {
         this.$refs.heartButton.toggle();
       }, 500);
     },
-    onToggleHeart(isOn) {
-      isOn ? this.heartCount++ : this.heartCount--;
+    onToggleHeart(result) {
+      const isOn = result.toggle;
+      const showId = result.showId;
+
+      if (isOn) {
+        this.heartShowIds.push(showId);
+      } else {
+        const index = this.heartShowIds.indexOf(showId);
+        if (index > -1) {
+          this.heartShowIds.splice(index, 1);
+        }
+      }
+
+      console.log(this.heartShowIds);
     }
     // @mouseover="hoverOver" @mouseout="hoverOut"
     // hoverOver: function() {
