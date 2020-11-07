@@ -72,7 +72,7 @@ jobs:
       - save_cache: *save-npm-cache
       - run:
           name: Dev Firebase Deploy
-          command:  ./node_modules/.bin/firebase deploy --project dev --only hosting:dionysus-dev --token "$DEV_FIREBASE_TOKEN"
+          command:  ./node_modules/.bin/firebase deploy --project dev --only hosting:dionysus-alarm-dev --token "$DEV_FIREBASE_TOKEN"
 #      - run:
 #          name: Archive and Delivery to Slack
 #          command: bash .circleci/delivery-to-slack.sh DEV dev-build $CIRCLE_BRANCH
@@ -112,7 +112,7 @@ jobs:
           command: mv firebase-prd.json firebase.json
       - run:
           name: Prd Firebase Deploy
-          command:  ./node_modules/.bin/firebase deploy --project prd --only hosting:dionysus --token "$FIREBASE_TOKEN"
+          command:  ./node_modules/.bin/firebase deploy --project prd --only hosting:dionysus-alarm --token "$FIREBASE_TOKEN"
 #      - run:
 #          name: Archive and Delivery to Slack
 #          command: bash .circleci/delivery-to-slack.sh PRD _general $CIRCLE_BRANCH
