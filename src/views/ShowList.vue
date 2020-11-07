@@ -20,6 +20,7 @@
                 <show-card-item
                   style="width:300px"
                   :show="show"
+                  :is-show-heart-message="false"
                   @heart-toggle="onToggleHeart"
                 ></show-card-item>
               </div>

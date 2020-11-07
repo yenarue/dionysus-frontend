@@ -78,7 +78,8 @@ export default {
     ToggleFavorite
   },
   props: {
-    show: Object
+    show: Object,
+    isShowHeartMessage: Boolean
   },
   data() {
     return {
@@ -98,6 +99,16 @@ export default {
       this.isHeart = value;
       this.$emit("heart-toggle", value);
       value ? this.heartCount++ : this.heartCount--;
+
+      if (value && this.isShowHeartMessage) {
+        this.$buefy.snackbar.open({
+          duration: 2000,
+          message: "꿀잼각! +❤️ " + this.show["공연 이름"],
+          type: "is-danger",
+          position: "is-bottom-right",
+          queue: false
+        });
+      }
     },
     showErrorImage(event) {
       event.target.src = config.defaultImageUrl;
