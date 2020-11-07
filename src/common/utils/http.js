@@ -11,7 +11,9 @@ function create(axiosInstance) {
   // eslint-disable-next-line no-unused-vars
   const requestInterceptor = axiosInstance.interceptors.request.use(
     function(config) {
-      app.isLoading = true;
+      if (!!!config.isNotNeedFullLoading) {
+        app.isLoading = true;
+      }
       return config;
     },
     function(error) {

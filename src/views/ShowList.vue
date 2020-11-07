@@ -83,7 +83,7 @@ export default {
     };
   },
   created() {
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV !== "development") {
       this.$root.isLoading = true;
       const data = require("../../tests/data/shows.json");
       this.setShowData(data.headers, data.data);
@@ -92,6 +92,7 @@ export default {
       request
         .get("/shows")
         .then(res => {
+          console.log(res.data.data[0]);
           this.setShowData(res.data.headers, res.data.data);
         })
         .catch(err => console.log(err));

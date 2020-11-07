@@ -70,6 +70,7 @@
 
 <script>
 import ToggleFavorite from "@/components/widgets/ToggleFavorite";
+import request from "@/common/utils/http";
 import config from "../../config";
 
 export default {
@@ -96,15 +97,36 @@ export default {
       this.isHeart = !this.isHeart;
     },
     onToggleFavorite(value) {
+      const showId = this.show["고유b"];
       this.isHeart = value;
 
       this.$emit("heart-toggle", {
         toggle: value,
-        showId: this.show["고유b"]
+        showId
       });
 
       value ? this.heartCount++ : this.heartCount--;
 
+      // heart api
+      const heart = {
+        showId,
+        authType: this.$store.getters.isLogin ? "login" : "temp",
+        userId: this.$store.getters.userId
+      };
+
+      if (value) {
+        request
+          .put("/shows/heart/" + showId, heart, { isNotNeedFullLoading: true })
+          .then(res => {
+            console.log(res);
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      } else {
+      }
+
+      // message snackbar
       if (this.isShowHeartMessage && value) {
         this.$buefy.snackbar.open({
           duration: 2000,
