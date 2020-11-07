@@ -1,5 +1,5 @@
 <template>
-  <form action="">
+  <div id="sigup">
     <div class="modal-card" style="width: auto">
       <header class="modal-card-head" style="background: white; padding: 2rem">
         <div>
@@ -77,8 +77,8 @@
             <div class="content-head" style="alignment: center"></div>
             <b-field label="이메일">
               <b-input
+                v-model="email"
                 type="email"
-                :value="email"
                 placeholder="자주 사용하시는 이메일을 입력해주세요"
                 required
               >
@@ -87,8 +87,8 @@
 
             <b-field label="비밀번호">
               <b-input
+                v-model="password"
                 type="password"
-                :value="password"
                 password-reveal
                 placeholder="비밀번호를 입력해주세요"
                 required
@@ -98,8 +98,8 @@
 
             <b-field label="닉네임">
               <b-input
+                v-model="nickName"
                 type="nickName"
-                :value="nickName"
                 placeholder="사용하실 닉네임을 입력해주세요"
                 required
               >
@@ -137,19 +137,16 @@
                 native-value="secret"
                 type="is-info"
               >
-                비밀이야
+                밝히지 않음
               </b-radio-button>
             </b-field>
 
             <b-field label="주 활동지역">
-              <b-input
-                type="regions"
-                :value="regions"
-                password-reveal
-                placeholder="ex) 온라인, 문래, 강남, 동작 등... (체크박스로 변경 예정)"
-                required
-              >
-              </b-input>
+              <div v-for="region in options.regions" :key="region.key">
+                <b-checkbox v-model="regions" :native-value="region.text">
+                  {{ region.text }}
+                </b-checkbox>
+              </div>
             </b-field>
           </div>
         </div>
@@ -161,16 +158,17 @@
         <button class="button is-warning" @click="$emit('open-login-form')">
           👍 이미 가족이야
         </button>
-        <button class="button is-black">
+        <button class="button is-black" @click="requestSignUp">
           ❤️ 가족이 될래
         </button>
       </footer>
     </div>
-  </form>
+  </div>
 </template>
 
 <script>
 import ShowCardItem from "@/components/ShowCardItem";
+import request from "../../common/utils/http";
 
 export default {
   name: "SignUpForm",
@@ -187,10 +185,74 @@ export default {
       nickName: "",
       birthday: new Date("1991-01-01"),
       gender: "",
-      regions: []
+      regions: [],
+      options: {
+        regions: [
+          {
+            key: "gangnam",
+            text: "강남"
+          },
+          {
+            key: "gangbuk",
+            text: "강북"
+          },
+          {
+            key: "gangseo",
+            text: "강서"
+          },
+          {
+            key: "gangdong",
+            text: "강동"
+          },
+          {
+            key: "gyeongido",
+            text: "경기도"
+          }
+        ]
+      }
     };
   },
   methods: {
+    requestSignUp() {
+      request
+        .put(
+          "/signup",
+          {
+            tempUserId: this.$store.getters.userId,
+            email: this.email,
+            password: this.password,
+            nickName: this.nickName,
+            birthday: this.birthday,
+            gender: this.gender,
+            regions: this.regions
+          },
+          { isNotNeedFullLoading: true }
+        )
+        .then(res => {
+          console.log(res);
+          this.$buefy.toast.open({
+            message: this.$store.getters.userId + " 가입 완료!",
+            type: "is-success"
+          });
+        })
+        .catch(err => {
+          console.log(err.response.status);
+
+          if (err.response.status === 409) {
+            this.$buefy.toast.open({
+              message: "이미 가입된 계정입니다 👍 로그인하러 고고!",
+              type: "is-info"
+            });
+          } else {
+            console.error(err);
+            this.$buefy.toast.open({
+              message:
+                "가입 시도 중 오류가 발생했습니다 😭 잠시 후 다시 시도해주세요",
+              type: "is-danger"
+            });
+          }
+        });
+    },
     printLog() {
       console.log("test");
     }
