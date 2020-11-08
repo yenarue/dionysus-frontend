@@ -32,7 +32,7 @@
         <b-button
           class="heart-summary"
           :type="heartShowIds.length > 0 ? 'is-danger' : 'is-danger is-light'"
-          icon-left="mdiHeart"
+          icon-left="heart"
           rounded
           @click="onClickHeartButton"
         >
