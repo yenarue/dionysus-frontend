@@ -5,7 +5,9 @@
         <div>
           <!--          <img src="./assets/logo.jpg" alt="온라인 공연 알리미" />-->
           <div class="subtitle">
-            온라인 공연 알리미
+            <strong>
+              온라인 공연 알리미
+            </strong>
           </div>
           <!--                    <div class="build-type">{{buildType}}</div>-->
         </div>
@@ -27,6 +29,9 @@
           로그아웃
         </b-button>
       </b-navbar-item>
+      <!--      <b-navbar-item tag="router-link" to="/about">-->
+      <!--        온라인 공연 알리미가 궁금하신가요?-->
+      <!--      </b-navbar-item>-->
     </template>
   </b-navbar>
 </template>
