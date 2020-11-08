@@ -114,16 +114,14 @@ export default {
         userId
       };
 
-      const axiosConfig = {
-        isNotNeedFullLoading: true,
-        headers: {
-          "x-id-token": userId
-        }
-      };
+      // 비회원용
+      if (!this.$store.getters.isLogin) {
+        request.defaults.headers.common["x-id-token"] = userId;
+      }
 
       const reqPromise = isOn
-        ? request.put("/shows/heart/" + showId, heart, axiosConfig)
-        : request.delete("/shows/heart/" + showId, axiosConfig);
+        ? request.put("/shows/heart/" + showId, heart)
+        : request.delete("/shows/heart/" + showId);
 
       reqPromise
         .then(res => {
