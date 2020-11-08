@@ -12,7 +12,8 @@ function create(axiosInstance) {
   const requestInterceptor = axiosInstance.interceptors.request.use(
     config => {
       // 공연 목록 불러올 때만 로딩 => 추후 리팩토링 필요
-      if (config.url.match(/\/shows[^/]+/)) {
+      console.log(config.url);
+      if (config.url === "/shows" || config.url.match(/shows[^/]/)) {
         console.log("loading?");
         app.isLoading = true;
       }
