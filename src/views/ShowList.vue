@@ -8,14 +8,19 @@
           <toggle-favorite ref="heartButton" />
           표시하기
         </div>
-        저희가 잘 <b>기억</b>해뒀다가 <b>알려</b>드릴게요 😉
+        <div style="font-size: 20px">
+          저희가 잘 <b>기억</b>해뒀다가 <b>알려</b>드릴게요 😉
+        </div>
       </div>
       <br />
       <br />
       <transition name="fade">
         <div v-if="showData.length > 0" class="container show-list">
           <div class="columns is-multiline is-centered is-mobile">
-            <div v-for="show in showData" :key="show.id">
+            <div
+              v-for="show in showData.slice(offset, limit * page)"
+              :key="show.id"
+            >
               <div class="column" :class="classes">
                 <show-card-item
                   style="width:300px"
@@ -68,6 +73,7 @@ import ToggleFavorite from "@/components/widgets/ToggleFavorite";
 import SignUpForm from "@/components/forms/SignUpForm";
 import SignInForm from "@/components/forms/SignInForm";
 import request from "../common/utils/http";
+import config from "../../config";
 
 export default {
   name: "ShowList",
@@ -80,11 +86,14 @@ export default {
       headers: [],
       showData: [],
       classes: [],
-      heartShowIds: []
+      heartShowIds: [],
+      offset: 0,
+      limit: 12,
+      page: 1
     };
   },
   created() {
-    if (process.env.NODE_ENV === "development") {
+    if (process.env.NODE_ENV === "development" && config.useDummyData) {
       this.$root.isLoading = true;
       const data = require("../../tests/data/shows.json");
       this.setShowData(data.headers, data.data);
@@ -98,6 +107,23 @@ export default {
         })
         .catch(err => console.log(err));
     }
+  },
+  mounted() {
+    window.onscroll = () => {
+      const bottomOfWindow =
+        Math.max(
+          window.pageYOffset,
+          document.documentElement.scrollTop,
+          document.body.scrollTop
+        ) +
+          window.innerHeight ===
+        document.documentElement.offsetHeight;
+
+      if (bottomOfWindow) {
+        console.log("bottom!");
+        this.page++;
+      }
+    };
   },
   methods: {
     setShowData(headers, showData) {
@@ -196,7 +222,7 @@ export default {
 }
 
 .head {
-  padding: 3rem 0 0 2rem;
+  padding: 6rem 0 3rem 0;
 }
 
 .fade-enter-active,
