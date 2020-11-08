@@ -56,7 +56,7 @@
       </div>
     </div>
     <div v-else>
-      <div class="title" style="display: inline-flex">
+      <div class="title head" style="display: inline-flex">
         나만 알고싶은
         <div style="color: #2c3e50; margin: 0 5px 0 5px;">
           꿀잼
