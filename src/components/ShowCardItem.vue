@@ -92,7 +92,7 @@ export default {
       isDomestic: this.show["국내/외"] === "국내",
       isFree: this.show["무/유료"] === "무료",
       isHeart: this.show.isHeart,
-      heartCount: 130,
+      heartCount: Math.floor(Math.random() * (200 - 10) + 10),
 
       isPosterLoaded: false
     };
