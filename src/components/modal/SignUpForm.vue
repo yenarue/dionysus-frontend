@@ -66,11 +66,22 @@
         </div>
         <div class="columns">
           <div class="column">
-            <p class="has-text-centered" style="font-size: 20px; padding: 1rem">
+            <p
+              class="has-text-centered"
+              style="font-size: 20px; padding: 1rem; width: 500px"
+            >
               <img src="../../assets/logo.jpg" />
               <br />
-              ✔️가족이 되면 좋은 점 몇가지!<br />1. 2. 3. <br />어쩌구저쩌구
-              아라라라라라라 아라라라라라라 이미지면 더 좋겠다
+              <strong>
+                ✔️온라인 공연 알리미와 가족이 되면 좋은 점
+              </strong>
+              <br />
+              1.
+              <br />
+              2.
+              <br />
+              3.
+              <br />
             </p>
           </div>
           <div class="column">
