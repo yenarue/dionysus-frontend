@@ -15,20 +15,41 @@
       </b-navbar-item>
     </template>
     <template slot="start">
-      <b-navbar-item tag="router-link" to="/">
-        Home
+      <b-navbar-item tag="div">
+        <b-button
+          v-if="!this.$store.getters.isLogin"
+          class="button"
+          @click="showSignInModal"
+        >
+          로그인
+        </b-button>
+        <b-button v-else>
+          로그아웃
+        </b-button>
       </b-navbar-item>
     </template>
   </b-navbar>
 </template>
 
 <script>
+import SignInForm from "@/components/forms/SignInForm";
+
 export default {
   name: "NavBar",
   data() {
     return {
       buildType: process.env.NODE_ENV
     };
+  },
+  methods: {
+    showSignInModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: SignInForm,
+        hasModalCard: true,
+        trapFocus: true
+      });
+    }
   }
 };
 </script>

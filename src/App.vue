@@ -58,6 +58,7 @@ export default {
   }
 };
 </script>
+<style></style>
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;700;900&family=Pacifico&display=swap");
 

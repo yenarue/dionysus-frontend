@@ -100,6 +100,8 @@ export default {
         email: this.email,
         password: this.password
       });
+
+      this.$emit("close");
     }
   }
 };
