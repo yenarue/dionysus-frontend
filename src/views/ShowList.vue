@@ -32,7 +32,7 @@
         <b-button
           class="heart-summary"
           :type="heartShowIds.length > 0 ? 'is-danger' : 'is-danger is-light'"
-          icon-left="mdiHeart"
+          icon-left="heart"
           rounded
           @click="onClickHeartButton"
         >
@@ -65,7 +65,8 @@
 <script>
 import ShowCardItem from "@/components/ShowCardItem";
 import ToggleFavorite from "@/components/widgets/ToggleFavorite";
-import SignUpForm from "@/components/modal/SignUpForm";
+import SignUpForm from "@/components/forms/SignUpForm";
+import SignInForm from "@/components/forms/SignInForm";
 import request from "../common/utils/http";
 
 export default {
@@ -114,7 +115,7 @@ export default {
         message: "👷‍♀️ 마이페이지 오픈 준비중  👷‍♂️"
       });
     },
-    showLoginModal() {
+    showSignUpModal() {
       this.$buefy.modal.open({
         parent: this,
         component: SignUpForm,
@@ -126,6 +127,22 @@ export default {
               return show;
             })
         },
+        events: {
+          complete: value => {
+            console.log("회원가입 완료!");
+          },
+          "open-signin-form": value => {
+            this.showSignInModal();
+          }
+        },
+        hasModalCard: true,
+        trapFocus: true
+      });
+    },
+    showSignInModal() {
+      this.$buefy.modal.open({
+        parent: this,
+        component: SignInForm,
         hasModalCard: true,
         trapFocus: true
       });
@@ -149,7 +166,7 @@ export default {
       if (this.$store.getters.isLogin) {
         this.moveToMyPage();
       } else {
-        this.showLoginModal();
+        this.showSignUpModal();
       }
     }
     // @mouseover="hoverOver" @mouseout="hoverOut"

@@ -5,6 +5,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "buefy/dist/buefy.css";
+import "mdi/css/materialdesignicons.min.css";
 
 Vue.use(Buefy);
 Vue.use(VueCookies);

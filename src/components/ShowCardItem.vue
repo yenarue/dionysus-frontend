@@ -2,17 +2,19 @@
   <div id="show-card">
     <div class="card">
       <div class="card-image">
-        <figure class="image">
-          <b-tag class="image-tag" type="is-warning" size="is-medium">
-            {{ show["공연 종류"] }}
-          </b-tag>
-          <img
-            class="poster"
-            :src="show['포스터'] || config.defaultImageUrl"
-            alt="Placeholder image"
-            @error="showErrorImage"
-          />
-        </figure>
+        <transition name="fade">
+          <figure v-show="isPosterLoaded" class="image">
+            <b-tag class="image-tag" type="is-warning" size="is-medium">
+              {{ show["공연 종류"] }}
+            </b-tag>
+            <img
+              class="poster"
+              :src="show['포스터'] || config.defaultImageUrl"
+              @error="showErrorImage"
+              @load="onPosterLoaded"
+            />
+          </figure>
+        </transition>
       </div>
       <div class="card-content">
         <div class="tags">
@@ -88,13 +90,18 @@ export default {
       isDomestic: this.show["국내/외"] === "국내",
       isFree: this.show["무/유료"] === "무료",
       isHeart: this.show.isHeart,
-      heartCount: 130
+      heartCount: 130,
+
+      isPosterLoaded: false
     };
   },
   methods: {
     onClickFavoriteButton() {
       console.log("clicked");
       this.isHeart = !this.isHeart;
+    },
+    onPosterLoaded() {
+      this.isPosterLoaded = true;
     },
     onToggleFavorite(isOn) {
       const showId = this.show["고유b"];
@@ -107,16 +114,14 @@ export default {
         userId
       };
 
-      const axiosConfig = {
-        isNotNeedFullLoading: true,
-        headers: {
-          "x-id-token": userId
-        }
-      };
+      // 비회원용
+      if (!this.$store.getters.isLogin) {
+        request.defaults.headers.common["x-id-token"] = userId;
+      }
 
       const reqPromise = isOn
-        ? request.put("/shows/heart/" + showId, heart, axiosConfig)
-        : request.delete("/shows/heart/" + showId, axiosConfig);
+        ? request.put("/shows/heart/" + showId, heart)
+        : request.delete("/shows/heart/" + showId);
 
       reqPromise
         .then(res => {
@@ -178,5 +183,17 @@ export default {
   text-align: center;
   alignment: center;
   margin-left: 1px;
+}
+
+.fade-enter-active {
+  transition: opacity 1s ease-in-out;
+}
+
+.fade-enter-to {
+  opacity: 1;
+}
+
+.fade-enter {
+  opacity: 0;
 }
 </style>

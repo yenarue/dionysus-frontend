@@ -1,5 +1,5 @@
 <template>
-  <div id="sigup">
+  <div id="signup">
     <div class="modal-card" style="width: auto">
       <header class="modal-card-head" style="background: white; padding: 2rem">
         <div>
@@ -16,10 +16,13 @@
       </header>
       <section class="modal-card-body">
         <div
-          class="has-text-centered"
+          class="content-head has-text-centered"
           style="padding: 1rem 0 2rem 0; font-size: 20px"
         >
-          <div class="title">
+          <div
+            class="content-head-header title"
+            style="margin-top: 1rem; margin-bottom: 2rem;"
+          >
             <strong class="has-text-danger">{{ heartedShows.length }}개</strong
             >의 꿀잼 공연을 담은 당신<br />
             <strong
@@ -42,6 +45,7 @@
           </div>
 
           <b-carousel-list
+            v-if="heartedShows.length > 0"
             :model="0"
             :data="heartedShows"
             arrow
@@ -49,7 +53,7 @@
             :items-to-list="1"
             repeat
             has-drag
-            style="padding: 1rem"
+            style="margin-top: 3rem; margin-bottom: 4rem;"
           >
             <template slot="item" slot-scope="show">
               <show-card-item
@@ -61,17 +65,56 @@
             </template>
           </b-carousel-list>
 
-          <!--          고오급 안목을 지닌 당신... 우리와 함께 해보지 않으실래요? 😉-->
-          저희와 함께하시고 <strong>취향저격 꿀잼 공연들</strong>을 만나보세요!
+          <div class="content-head-footer">
+            <!--          고오급 안목을 지닌 당신... 우리와 함께 해보지 않으실래요? 😉-->
+            온라인 공연 알리미와 함께 <strong>취향저격 꿀잼 공연들</strong>을
+            만나보세요!
+          </div>
         </div>
-        <div class="columns">
+        <div class="columns" style="margin-top: 2rem">
           <div class="column">
-            <p class="has-text-centered" style="font-size: 20px; padding: 1rem">
+            <div
+              class="has-text-centered"
+              style="font-size: 20px; padding: 1rem; width: 500px"
+            >
               <img src="../../assets/logo.jpg" />
+              <div class="columns" style="font-size: 13px">
+                <div class="column">
+                  <img src="../../assets/alimi.png" /> 알리미
+                </div>
+                <div class="column">
+                  <img src="../../assets/clduk.png" /> 클덕이
+                </div>
+                <div class="column">
+                  <img src="../../assets/gonglin.png" /> 공린이
+                </div>
+                <div class="column">
+                  <img src="../../assets/conduk.png" /> 콘덕이
+                </div>
+                <div class="column">
+                  <img src="../../assets/muduk.png" /> 뮤덕이
+                </div>
+                <div class="column">
+                  <img src="../../assets/muyong.png" /> 무용이
+                </div>
+                <div class="column">
+                  <img src="../../assets/teakuk.png" /> 태극이
+                </div>
+                <div class="column">
+                  <img src="../../assets/yeonduk.png" /> 연덕이
+                </div>
+              </div>
+              <strong>
+                ✔️온라인 공연 알리미와 가족이 되면 좋은 점
+              </strong>
               <br />
-              ✔️가족이 되면 좋은 점 몇가지!<br />1. 2. 3. <br />어쩌구저쩌구
-              아라라라라라라 아라라라라라라 이미지면 더 좋겠다
-            </p>
+              1.
+              <br />
+              2.
+              <br />
+              3.
+              <br />
+            </div>
           </div>
           <div class="column">
             <div class="content-head" style="alignment: center"></div>
@@ -155,7 +198,7 @@
         <button class="button is-light" type="button" @click="$emit('close')">
           😅 나중에 할래
         </button>
-        <button class="button is-warning" @click="$emit('open-login-form')">
+        <button class="button is-warning" @click="onClickSignInButton">
           👍 이미 가족이야
         </button>
         <button class="button is-black" @click="requestSignUp">
@@ -273,6 +316,10 @@ export default {
           }
         });
     },
+    onClickSignInButton() {
+      this.$emit("close");
+      this.$emit("open-signin-form");
+    },
     printLog() {
       console.log("test");
     }
@@ -280,4 +327,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped></style>
