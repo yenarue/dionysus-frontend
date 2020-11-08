@@ -1,21 +1,23 @@
 <template>
   <div id="show-card">
     <div class="card">
-      <div class="card-image">
-        <transition name="fade">
-          <figure v-show="isPosterLoaded" class="image">
-            <b-tag class="image-tag" type="is-warning" size="is-medium">
-              {{ show["공연 종류"] }}
-            </b-tag>
-            <img
-              class="poster"
-              :src="show['포스터'] || config.defaultImageUrl"
-              @error="showErrorImage"
-              @load="onPosterLoaded"
-            />
-          </figure>
-        </transition>
-      </div>
+      <a :href="show['NOTICE']" target="_blank">
+        <div class="card-image">
+          <transition name="fade">
+            <figure v-show="isPosterLoaded" class="image">
+              <b-tag class="image-tag" type="is-warning" size="is-medium">
+                {{ show["공연 종류"] }}
+              </b-tag>
+              <img
+                class="poster"
+                :src="show['포스터'] || config.defaultImageUrl"
+                @error="showErrorImage"
+                @load="onPosterLoaded"
+              />
+            </figure>
+          </transition>
+        </div>
+      </a>
       <div class="card-content">
         <div class="tags">
           <b-tag
@@ -90,7 +92,7 @@ export default {
       isDomestic: this.show["국내/외"] === "국내",
       isFree: this.show["무/유료"] === "무료",
       isHeart: this.show.isHeart,
-      heartCount: 130,
+      heartCount: Math.floor(Math.random() * (200 - 10) + 10),
 
       isPosterLoaded: false
     };

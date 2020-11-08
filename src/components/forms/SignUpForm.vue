@@ -107,13 +107,14 @@
               <strong>
                 ✔️온라인 공연 알리미와 가족이 되면 좋은 점
               </strong>
-              <br />
-              1.
-              <br />
-              2.
-              <br />
-              3.
-              <br />
+              <div style="margin-top: 10px">
+                1. 공연 소식을 <strong>누구보다 빠르게</strong> 받아볼 수 있어요
+                <br />
+                2. 좋았던 공연들을 <strong>기록</strong>할 수 있어요
+                <br />
+                3. <strong>취향저격 공연들</strong>을 추천받을 수 있어요
+                <br />
+              </div>
             </div>
           </div>
           <div class="column">
