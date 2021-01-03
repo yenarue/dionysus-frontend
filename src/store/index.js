@@ -21,15 +21,6 @@ export default new Vuex.Store({
     isLogin: state => state.loginState === "success"
   },
   mutations: {
-    tempLogin(state) {
-      const currentTime = new Date().getTime();
-      state.loginState = "temporary";
-      state.user = {
-        userId: "tempUser" + currentTime,
-        email: "",
-        nickName: "사용자" + currentTime
-      };
-    },
     logout(state) {
       state.loginState = "";
       state.user = {
@@ -53,30 +44,6 @@ export default new Vuex.Store({
       state.loginState = "request";
     }
   },
-  actions: {
-    tempLogin({ commit }) {
-      commit("tempLogin");
-    },
-    login({ commit }, loginInfo) {
-      request
-        .put(
-          "/signin",
-          {
-            email: loginInfo.email,
-            password: loginInfo.password
-          },
-          { isNotNeedFullLoading: true }
-        )
-        .then(res => {
-          console.log("response=", res.data);
-          commit("authSuccess", res.data);
-        })
-        .catch(err => {
-          console.error(err);
-          commit("authError");
-        });
-    },
-    logout({ commit }) {}
-  },
+  actions: {},
   modules: {}
 });

@@ -18,28 +18,6 @@ function create(axiosInstance) {
         app.isLoading = true;
       }
 
-      if (config.url.indexOf("/signout") > -1) {
-        console.log("signout completed");
-        // 실제 요청 없이 로그아웃 처리 위해 빈 값으로 즉시 resolve
-        config.adapter = function(config) {
-          return new Promise(resolve => {
-            delete axiosInstance.defaults.headers.common["x-access-token"];
-            delete axiosInstance.defaults.headers.common["x-id-token"]; // 비회원용
-
-            const res = {
-              data: {},
-              status: 200,
-              statusText: "OK",
-              headers: { "content-type": "text/plain; charset=utf-8" },
-              config,
-              request: {}
-            };
-
-            return resolve(res);
-          });
-        };
-      }
-
       const newConfig = {
         ...config,
         headers: {
@@ -59,6 +37,7 @@ function create(axiosInstance) {
   const responseInterceptor = axiosInstance.interceptors.response.use(
     function(response) {
       console.log("response=", response);
+      console.log("responseURL=", response.request.responseURL);
 
       if (response.request.responseURL.indexOf("/signup") > -1) {
         console.log("signup");

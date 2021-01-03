@@ -16,18 +16,21 @@
         </div>
       </b-navbar-item>
     </template>
-    <template slot="start">
+    <template slot="end">
       <b-navbar-item tag="div">
         <b-button
           v-if="!this.$store.getters.isLogin"
           class="button"
-          @click="showSignInModal"
+          @click="moveToSignIn"
         >
           로그인
         </b-button>
-        <b-button v-else>
-          로그아웃
-        </b-button>
+        <div v-else>
+          <strong>{{ this.$store.getters.nickName }}</strong> 님
+          <b-button @click="logout">
+            로그아웃
+          </b-button>
+        </div>
       </b-navbar-item>
       <!--      <b-navbar-item tag="router-link" to="/about">-->
       <!--        온라인 공연 알리미가 궁금하신가요?-->
@@ -37,7 +40,7 @@
 </template>
 
 <script>
-import SignInForm from "@/components/forms/SignInForm";
+import request from "./common/utils/http";
 
 export default {
   name: "NavBar",
@@ -47,13 +50,21 @@ export default {
     };
   },
   methods: {
-    showSignInModal() {
-      this.$buefy.modal.open({
-        parent: this,
-        component: SignInForm,
-        hasModalCard: true,
-        trapFocus: true
-      });
+    moveToSignIn() {
+      this.$router.push("signin");
+    },
+    logout() {
+      request
+        .put("/signout")
+        .then(res => {
+          console.log(res.data);
+          this.$store.commit("logout");
+          this.$buefy.toast.open({
+            type: "is-info",
+            message: "로그아웃"
+          });
+        })
+        .catch(err => console.error(err));
     }
   }
 };

@@ -46,16 +46,7 @@ export default {
       version: JSON.stringify(packageJson.version).replace(/"/g, "")
     };
   },
-  created() {
-    this.$store
-      .dispatch("tempLogin")
-      .then(() => {
-        console.log("nickName", this.$store.getters.nickName);
-        console.log("userId", this.$store.getters.userId);
-        console.log("loginState", this.$store.getters.loginState);
-      })
-      .catch(err => console.error(err));
-  }
+  created() {}
 };
 </script>
 <style></style>

@@ -33,27 +33,6 @@
           </div>
         </div>
       </transition>
-      <div class="summary-container">
-        <b-button
-          class="heart-summary"
-          :type="heartShowIds.length > 0 ? 'is-danger' : 'is-danger is-light'"
-          icon-left="heart"
-          rounded
-          @click="onClickHeartButton"
-        >
-          <div style="display: inline-flex">
-            <div v-if="heartShowIds.length > 0">
-              {{ this.$store.getters.nickName }} 님의
-              <strong>{{ this.heartShowIds.length }} 가지 꿀잼 공연</strong>이
-              담겨있어요
-            </div>
-            <div v-else>
-              {{ this.$store.getters.nickName }} 님의
-              <strong>꿀잼 공연</strong>을 담아보세요
-            </div>
-          </div>
-        </b-button>
-      </div>
     </div>
     <div v-else>
       <div class="title head" style="display: inline-flex">

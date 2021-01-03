@@ -116,11 +116,6 @@ export default {
         userId
       };
 
-      // 비회원용
-      if (!this.$store.getters.isLogin) {
-        request.defaults.headers.common["x-id-token"] = userId;
-      }
-
       const reqPromise = isOn
         ? request.put("/shows/heart/" + showId, heart)
         : request.delete("/shows/heart/" + showId);
