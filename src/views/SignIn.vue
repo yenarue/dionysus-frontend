@@ -114,7 +114,7 @@ export default {
           "/signin",
           {
             email: this.email,
-            password: this.password
+            password: this.password // TODO : 이거 암호화해서 전달해야 함
           },
           { isNotNeedFullLoading: true }
         )

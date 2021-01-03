@@ -44,6 +44,8 @@ export default new Vuex.Store({
       state.loginState = "request";
     }
   },
-  actions: {},
+  actions: {
+    // 생각해보니 로그인로직은 그냥 액션에다가 해도 되지않나?
+  },
   modules: {}
 });
