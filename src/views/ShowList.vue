@@ -1,19 +1,27 @@
 <template>
-  <div class="show-list">
-    <div v-if="!$root.isLoading" class="container">
+  <div class="">
+    <div class="head">
+      <transition name="fade">
+        <div class="head-container">
+          <b-image class="blur" :src="require('@/assets/main_image_1.jpg')">
+            <b-skeleton
+              slot="placeholder"
+              class="skeleton-placeholder"
+              height="100%"
+            ></b-skeleton>
+          </b-image>
+          <div
+            class="title centered has-text-white"
+            style="text-shadow: black 1px 0 10px"
+          >
+            트리거 문구1<br />
+            아래에서 구경하세요 블라블라
+          </div>
+        </div>
+      </transition>
+    </div>
+    <div v-if="!$root.isLoading" class="show-list container">
       <!--    검색된 공연수 : {{ showData.length }} 개-->
-      <div class="head">
-        <div class="title">
-          꿀잼각이거나 꿀잼이었던 공연
-          <toggle-favorite ref="heartButton" />
-          표시하기
-        </div>
-        <div style="font-size: 20px">
-          저희가 잘 <b>기억</b>해뒀다가 <b>알려</b>드릴게요 😉
-        </div>
-      </div>
-      <br />
-      <br />
       <transition name="fade">
         <div v-if="showData.length > 0" class="container show-list">
           <div class="columns is-multiline is-centered is-mobile">
@@ -57,7 +65,6 @@ import config from "../../config";
 export default {
   name: "ShowList",
   components: {
-    ToggleFavorite,
     ShowCardItem
   },
   data() {
@@ -201,7 +208,27 @@ export default {
 }
 
 .head {
-  padding: 6rem 0 3rem 0;
+  padding: 0 0 5rem 0;
+}
+
+.head-container {
+  position: relative;
+  text-align: center;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.blur {
+  -webkit-filter: blur(2px);
+  -moz-filter: blur(2px);
+  -o-filter: blur(2px);
+  -ms-filter: blur(2px);
+  filter: blur(2px);
 }
 
 .fade-enter-active,
