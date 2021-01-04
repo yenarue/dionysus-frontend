@@ -17,20 +17,31 @@
       </b-navbar-item>
     </template>
     <template slot="end">
-      <b-navbar-item tag="div">
-        <b-button
-          v-if="!this.$store.getters['isLogin']"
-          class="button"
-          @click="moveToSignIn"
-        >
+      <b-navbar-item
+        v-if="!this.$store.getters['isLogin']"
+        class="navbar-buttons"
+        tag="div"
+      >
+        <b-button class="button" @click="moveToSignIn">
           로그인
         </b-button>
-        <div v-else>
-          <strong>{{ this.$store.getters["nickName"] }}</strong> 님
-          <b-button @click="logout">
-            로그아웃
-          </b-button>
+      </b-navbar-item>
+      <b-navbar-item v-else class="navbar-buttons" tag="div">
+        <b-navbar-item>
+          <b-icon icon="bell" />
+        </b-navbar-item>
+        <div>
+          <strong>{{ this.$store.getters["nickName"] }}</strong>
+          님
         </div>
+        <b-navbar-dropdown label="MY">
+          <b-navbar-item href="/mypage">
+            마이페이지
+          </b-navbar-item>
+          <b-navbar-item @click="logout">
+            로그아웃
+          </b-navbar-item>
+        </b-navbar-dropdown>
       </b-navbar-item>
       <!--      <b-navbar-item tag="router-link" to="/about">-->
       <!--        온라인 공연 알리미가 궁금하신가요?-->
