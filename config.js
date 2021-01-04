@@ -1,7 +1,7 @@
 const config = {};
 
 config.development = {
-  useDummyData: false,
+  useDummyData: true,
   serverBaseUrl: process.env.VUE_APP_SERVER_BASE_URL || "http://localhost:8080",
   port: process.env.VUE_APP_PORT || 3000,
   defaultImageUrl:

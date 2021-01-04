@@ -119,7 +119,7 @@ export default {
           { isNotNeedFullLoading: true }
         )
         .then(res => {
-          this.$store.commit("authSuccess", res.data);
+          this.$store.dispatch("login", res.data);
           this.openToast("is-success", "👏 로그인 성공 👏");
           this.$router.push("/");
         })
@@ -129,7 +129,7 @@ export default {
             "is-error",
             "로그인에 실패하였습니다. 이메일과 비밀번호를 다시 확인해주세요."
           );
-          this.$store.commit("authError");
+          this.$store.dispatch("error");
         });
     }
   }

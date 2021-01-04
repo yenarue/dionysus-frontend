@@ -19,14 +19,14 @@
     <template slot="end">
       <b-navbar-item tag="div">
         <b-button
-          v-if="!this.$store.getters.isLogin"
+          v-if="!this.$store.getters['isLogin']"
           class="button"
           @click="moveToSignIn"
         >
           로그인
         </b-button>
         <div v-else>
-          <strong>{{ this.$store.getters.nickName }}</strong> 님
+          <strong>{{ this.$store.getters["nickName"] }}</strong> 님
           <b-button @click="logout">
             로그아웃
           </b-button>
@@ -58,7 +58,7 @@ export default {
         .put("/signout")
         .then(res => {
           console.log(res.data);
-          this.$store.commit("logout");
+          this.$store.dispatch("logout");
           this.$buefy.toast.open({
             type: "is-info",
             message: "로그아웃"
